@@ -3,19 +3,14 @@ buildscript {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath(GradleDependency.android)
-        classpath(GradleDependency.kotlin)
-        classpath(GradleDependency.hilt)
-        classpath(GradleDependency.safeArgs)
-    }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.hilt) apply false
 }
 
 tasks.register<Delete>("clean").configure {

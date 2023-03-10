@@ -1,10 +1,7 @@
 plugins {
-    id(GradlePlugin.androidApplication)
-    id(GradlePlugin.kotlinAndroid)
-    id(GradlePlugin.kotlinKapt)
-    id(GradlePlugin.hilt)
-    id(GradlePlugin.kotlinParcelize)
-    id(GradlePlugin.safeArgs)
+    id("shopping-app.android.application")
+    id("shopping-app.android.application.compose")
+    id("shopping-app.android.hilt")
 }
 
 android {
@@ -13,22 +10,19 @@ android {
 
     defaultConfig {
         applicationId = AppConfig.applicationId
-        minSdk = AppConfig.minSdk
-        targetSdk = AppConfig.targetSdk
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
-        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
-        getByName(AppConfig.debugBuild) {
+        val debug by getting {
             enableUnitTestCoverage = true
             enableAndroidTestCoverage = true
         }
 
-        getByName(AppConfig.releaseBuild) {
+        val release by getting {
             enableUnitTestCoverage = false
             enableAndroidTestCoverage = false
             isDebuggable = false
@@ -37,40 +31,23 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Version.compose
-    }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 }
 
 dependencies {
-    implementation(Dependency.coreKtx)
-    implementation(Dependency.lifecycle)
-    implementation(Dependency.activityCompose)
-    implementation(Dependency.composeUi)
-    implementation(Dependency.composePreview)
-    implementation(Dependency.material)
+    implementation(project(":core:ui"))
 
-    implementation(Dependency.hilt)
-    kapt(Dependency.hiltCompiler)
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.svg)
 
-    testImplementation(Dependency.junit)
-    androidTestImplementation(Dependency.junitUi)
-    androidTestImplementation(Dependency.espresso)
-    androidTestImplementation(Dependency.composeUiTest)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test)
 
-    debugImplementation(Dependency.composeUiTooling)
-    debugImplementation(Dependency.composeUiTestManifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
 }
