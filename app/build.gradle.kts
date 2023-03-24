@@ -37,7 +37,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:navigation"))
+
+    implementation(project(":feature:home"))
 
     implementation(libs.coil.kt)
     implementation(libs.coil.kt.svg)

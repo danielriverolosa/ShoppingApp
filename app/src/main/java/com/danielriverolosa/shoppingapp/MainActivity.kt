@@ -1,18 +1,30 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.danielriverolosa.shoppingapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.danielriverolosa.shoppingapp.ui.theme.ShoppingAppTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.danielriverolosa.core.ui.theme.ShoppingAppTheme
+import com.danielriverolosa.navigation.NavigationFactory
+import com.danielriverolosa.navigation.NavigationRoute
+import com.danielriverolosa.navigation.addNavigation
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var navigationFactories: @JvmSuppressWildcards Set<NavigationFactory>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,22 +34,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    ShoppingApp()
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ShoppingAppTheme {
-        Greeting("Android")
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @Composable
+    fun ShoppingApp() {
+        val navController = rememberNavController()
+        Scaffold {
+            NavHost(navController = navController, startDestination = NavigationRoute.HOME) {
+                navigationFactories.addNavigation(this, navController)
+            }
+        }
     }
 }

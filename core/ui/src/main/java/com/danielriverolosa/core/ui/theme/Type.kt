@@ -1,4 +1,4 @@
-package com.danielriverolosa.shoppingapp.ui.theme
+package com.danielriverolosa.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
