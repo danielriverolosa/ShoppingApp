@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "com.danielriverolosa.core.data"
+
+    defaultConfig {
+        buildConfigField("String", "BASE_URL", "\"https://fakestoreapi.com/\"")
+    }
 }
 
 dependencies {

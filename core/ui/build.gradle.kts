@@ -7,6 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
+
     api(libs.androidx.activity.compose)
     api(libs.androidx.core.ktx)
     api(libs.androidx.compose.runtime)
